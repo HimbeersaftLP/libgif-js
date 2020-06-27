@@ -455,6 +455,9 @@
         var frames = [];
         var frameOffsets = []; // elements have .x and .y properties
 
+        var delay_multiplier = 1;
+        var frame_change_callback;
+
         var gif = options.gif;
         if (typeof options.auto_play == 'undefined')
             options.auto_play = (!gif.getAttribute('rel:auto_play') || gif.getAttribute('rel:auto_play') == '1');
@@ -733,7 +736,7 @@
                     stepFrame(1);
                     var delay = frames[i].delay * 10;
                     if (!delay) delay = 100; // FIXME: Should this even default at all? What should it be?
-
+                    delay *= delay_multiplier;
                     var nextFrameNo = getNextFrameNo();
                     if (nextFrameNo === 0) {
                         delay += loopDelay;
@@ -749,6 +752,7 @@
             }());
 
             var putFrame = function () {
+                if (frame_change_callback) frame_change_callback(i);
                 var offset;
                 i = parseInt(i, 10);
 
@@ -980,7 +984,13 @@
                 stream = new Stream(arr);
                 setTimeout(doParse, 0);
             },
-            set_frame_offset: setFrameOffset
+            set_frame_offset: setFrameOffset,
+            set_multiplier: function(multiplier) {
+                delay_multiplier = multiplier;
+            },
+            on_frame_change: function (callback) {
+                frame_change_callback = callback;
+            }
         };
     };
 
