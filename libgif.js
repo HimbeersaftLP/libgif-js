@@ -490,11 +490,6 @@
             }
         };
 
-        var doText = function (text) {
-            toolbar.innerHTML = text; // innerText? Escaping? Whatever.
-            toolbar.style.visibility = 'visible';
-        };
-
         var setSizes = function(w, h) {
             canvas.width = w * get_canvas_scale();
             canvas.height = h * get_canvas_scale();
@@ -537,18 +532,6 @@
                         left = (options.vp_l / get_canvas_scale() );
                         mid = left + (pos / length) * (options.vp_w / get_canvas_scale());
                         width = canvas.width / get_canvas_scale();
-                    }
-                    //some debugging, draw rect around viewport
-                    if (false) {
-                        if (!ctx_scaled) {
-                            var l = options.vp_l, t = options.vp_t;
-                            var w = options.vp_w, h = options.vp_h;
-                        } else {
-                            var l = options.vp_l/get_canvas_scale(), t = options.vp_t/get_canvas_scale();
-                            var w = options.vp_w/get_canvas_scale(), h = options.vp_h/get_canvas_scale();
-                        }
-                        ctx.rect(l,t,w,h);
-                        ctx.stroke();
                     }
                 }
                 else {
@@ -695,9 +678,6 @@
             var i = -1;
             var iterationCount = 0;
 
-            var showingInfo = false;
-            var pinned = false;
-
             /**
              * Gets the index of the frame "up next".
              * @returns {number}
@@ -839,7 +819,7 @@
                 NETSCAPE: withProgress(doNothing)
             },
             img: withProgress(doImg, true),
-            eof: function (block) {
+            eof: function () {
                 //toolbar.style.display = '';
                 pushFrame();
                 doDecodeProgress(false);
@@ -953,7 +933,7 @@
                     // Wait until connection is opened to replace the gif element with a canvas to avoid a blank img
                     if (!initialized) init();
                 };
-                h.onload = function(e) {
+                h.onload = function() {
                     if (this.status != 200) {
                         doLoadError('xhr - response');
                     }
