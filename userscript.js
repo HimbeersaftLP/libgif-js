@@ -105,29 +105,36 @@ import SuperGif from "./libgif.js"
     });
   }
 
-  const gifs = document.querySelectorAll('img[src$=".gif"]');
+  function addClickListeners() {
+    const gifs = document.querySelectorAll('img[src$=".gif"]');
 
-  if (gifs.length > 0) {
-    Array.from(gifs).forEach(gif => {
-      gif.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (gif.complete && typeof gif.naturalWidth != 'undefined' && gif.naturalWidth !== 0) {
-          // https://stackoverflow.com/a/1977898/
-          addGifControls(gif);
-        } else {
-          gif.onload = () => addGifControls(gif);
-        }
+    if (gifs.length > 0) {
+      Array.from(gifs).forEach(gif => {
+        if (gif.getAttribute("data-jsgif-listeneradded") !== null) return;
+        gif.setAttribute("data-jsgif-listeneradded", "");
+
+        gif.addEventListener("click", e => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (gif.complete && typeof gif.naturalWidth != 'undefined' && gif.naturalWidth !== 0) {
+            // https://stackoverflow.com/a/1977898/
+            addGifControls(gif);
+          } else {
+            gif.onload = () => addGifControls(gif);
+          }
+        });
+        let origFilter;
+        gif.addEventListener("mouseover", () => {
+          origFilter = gif.style.filter;
+          gif.style.filter = origFilter + "brightness(0.3)";
+        });
+        gif.addEventListener("mouseout", () => gif.style.filter = origFilter);
       });
-      let origFilter;
-      gif.addEventListener("mouseover", () => {
-        origFilter = gif.style.filter;
-        gif.style.filter = origFilter + "brightness(0.3)";
-      });
-      gif.addEventListener("mouseout", () => gif.style.filter = origFilter);
-    });
-    const style = document.createElement("style");
-    style.innerText = '.jsgif-bookmarklet-pbar{color:#000!important;background-color:#eee!important;text-decoration:none!important;cursor:default!important;user-select:none!important;text-align:center!important;}.jsgif-bookmarklet-btn{font-family:"Segoe UI Symbol", sans-serif!important;height:30px!important;width:30px!important;}';
-    document.head.appendChild(style);
+      const style = document.createElement("style");
+      style.innerText = '.jsgif-bookmarklet-pbar{color:#000!important;background-color:#eee!important;text-decoration:none!important;cursor:default!important;user-select:none!important;text-align:center!important;}.jsgif-bookmarklet-btn{font-family:"Segoe UI Symbol", sans-serif!important;height:30px!important;width:30px!important;}';
+      document.head.appendChild(style);
+    }
+
+    GM_registerMenuCommand("Add Controls", addClickListeners);
   }
 })();
