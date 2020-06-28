@@ -908,7 +908,7 @@
             get_auto_play    : function() { return options.auto_play },
             get_length       : function() { return player.length() },
             get_current_frame: function() { return player.current_frame() },
-            load_url: function(src,callback){
+            load_url: function(src, callback, errback){
                 if (!load_setup(callback)) return;
 
                 var h = new XMLHttpRequest();
@@ -952,11 +952,15 @@
                 h.onprogress = function (e) {
                     if (e.lengthComputable) doShowProgress(e.loaded, e.total, true);
                 };
-                h.onerror = function() { doLoadError('xhr'); };
+                h.onerror = function(e) {
+                    // doLoadError('xhr');
+                    loading = false;
+                    errback(e);
+                };
                 h.send();
             },
-            load: function (callback) {
-                this.load_url(gif.getAttribute('rel:animated_src') || gif.src,callback);
+            load: function (callback, errback) {
+                this.load_url(gif.src, callback, errback);
             },
             load_raw: function(arr, callback) {
                 if (!load_setup(callback)) return;

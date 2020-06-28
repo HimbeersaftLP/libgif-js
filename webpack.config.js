@@ -4,8 +4,8 @@ const WrapperPlugin = require("wrapper-webpack-plugin");
 module.exports = {
   entry: './userscript.js',
   output: {
-    filename: 'userscript_full.min..js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'userscript_full.min.js',
+    path: path.resolve(__dirname, 'dist'),
   },
   mode: 'production',
   plugins: [
@@ -19,10 +19,20 @@ module.exports = {
 // @description Adds GIF controls to websites
 // @run-at      document-idle
 // @grant       GM_registerMenuCommand
+// @grant       GM_notification
+// @grant       GM_xmlhttpRequest
 // @homepageURL https://github.com/HimbeersaftLP/libgif-js/
 // ==/UserScript==
 `,
       afterOptimizations: true
     })
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['to-string-loader', 'css-loader'],
+      },
+    ],
+  }
 };

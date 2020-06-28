@@ -1,0 +1,32 @@
+.jsgif_toolbar {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.jsgif:hover > .jsgif_toolbar {
+    display: block;
+}
+
+.jsgif-userscript-pbar {
+    color: #000 !important;
+    background-color: #eee !important;
+    text-decoration: none !important;
+    line-height: normal !important;
+    cursor: default !important;
+    user-select: none !important;
+    text-align: center !important;
+}
+
+.jsgif-userscript-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.jsgif-userscript-btn {
+    font-family: "Segoe UI Symbol", sans-serif !important;
+    height: 30px !important;
+    width: 30px !important;
+}
