@@ -134,7 +134,7 @@ import SuperGif from "./libgif.js"
       style.innerText = '.jsgif-bookmarklet-pbar{color:#000!important;background-color:#eee!important;text-decoration:none!important;cursor:default!important;user-select:none!important;text-align:center!important;}.jsgif-bookmarklet-btn{font-family:"Segoe UI Symbol", sans-serif!important;height:30px!important;width:30px!important;}';
       document.head.appendChild(style);
     }
-
-    GM_registerMenuCommand("Add Controls", addClickListeners);
   }
+
+  GM_registerMenuCommand("Add Controls", addClickListeners);
 })();
