@@ -1,8 +1,9 @@
 {
   "devDependencies": {
-    "terser": "^4.8.0"
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
   },
   "scripts": {
-    "build": "npx terser --compress --mangle --enclose --output bookmarklet_full.min.js -- libgif.js bookmarklet.js"
+    "build": "webpack"
   }
 }

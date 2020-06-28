@@ -1,3 +1,5 @@
+import SuperGif from "./libgif.js"
+
 (function () {
   "use strict";
 
